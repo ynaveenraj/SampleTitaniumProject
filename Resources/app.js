@@ -1,47 +1,32 @@
-/**
- * Create a new `Ti.UI.TabGroup`.
- */
-var tabGroup = Ti.UI.createTabGroup();
+var win = Ti.UI.createWindow({
+    backgroundColor : "green"
+});
 
-/**
- * Add the two created tabs to the tabGroup object.
- */
-tabGroup.addTab(createTab("Tab 1", "I am Window 1", "assets/images/tab1.png"));
-tabGroup.addTab(createTab("Tab 2", "I am Window 2", "assets/images/tab2.png"));
+var img = Ti.UI.createImageView({
+    image: "tom.png"
+});
 
-/**
- * Open the tabGroup
- */
-tabGroup.open();
+win.add(img);
 
-/**
- * Creates a new Tab and configures it.
- *
- * @param  {String} title The title used in the `Ti.UI.Tab` and it's included `Ti.UI.Window`
- * @param  {String} message The title displayed in the `Ti.UI.Label`
- * @return {String} icon The icon used in the `Ti.UI.Tab`
- */
-function createTab(title, message, icon) {
-    var win = Ti.UI.createWindow({
-        title: title,
-        backgroundColor: '#fff'
+// img.animate({
+//     left: 0,
+//     top: 0,
+//     duration: 500,
+//     curve: Titanium.UI.ANIMATION_CURVE_EASE_IN
+// });
+
+var a = Ti.UI.createAnimation({
+    opacity: 0,
+    duration: 2000
+});
+var b = Ti.UI.createAnimation({
+    opacity: 1,
+    duration: 2000
+});
+img.addEventListener('click', function () {
+    img.animate(a, function () {
+        img.animate(b);
     });
+});
 
-    var label = Ti.UI.createLabel({
-        text: message,
-        color: "#333",
-        font: {
-            fontSize: 20
-        }
-    });
-
-    win.add(label);
-
-    var tab = Ti.UI.createTab({
-        title: title,
-        icon: icon,
-        window: win
-    });
-
-    return tab;
-}
+win.open();
