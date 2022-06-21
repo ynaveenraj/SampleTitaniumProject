@@ -1,32 +1,37 @@
-var win = Ti.UI.createWindow({
-    backgroundColor : "green"
+Ti.UI.backgroundColor = 'white';
+
+var win1 = Ti.UI.createWindow({
+    backgroundColor: 'blue'
 });
 
-var img = Ti.UI.createImageView({
-    image: "tom.png"
+var win2 = Ti.UI.createWindow({
+    backgroundColor: 'yellow'
 });
 
-win.add(img);
-
-// img.animate({
-//     left: 0,
-//     top: 0,
-//     duration: 500,
-//     curve: Titanium.UI.ANIMATION_CURVE_EASE_IN
-// });
-
-var a = Ti.UI.createAnimation({
-    opacity: 0,
-    duration: 2000
-});
-var b = Ti.UI.createAnimation({
-    opacity: 1,
-    duration: 2000
-});
-img.addEventListener('click', function () {
-    img.animate(a, function () {
-        img.animate(b);
-    });
+var activityIndicator = Ti.UI.createActivityIndicator({
+    color: 'green',
+    message: 'Loading ...',
+    style: Ti.UI.ActivityIndicatorStyle.BIG_DARK,
+    top: 10,
+    left: 10,
+    height: Ti.UI.SIZE,
+    width: Ti.UI.SIZE
 });
 
-win.open();
+// The activity indicator must be added to a window or view for it to appear
+win2.add(activityIndicator);
+
+// eventListeners must always be loaded before the event is likely to fire
+// hence, the open() method must be positioned before the window is opened
+win2.addEventListener('open', function (e) {
+    activityIndicator.show();
+    // do some work that takes 6 seconds
+    // ie. replace the following setTimeout block with your code
+    setTimeout(function () {
+        e.source.close();
+        activityIndicator.hide();
+    }, 6000);
+});
+
+win1.open();
+win2.open();
