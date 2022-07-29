@@ -1,47 +1,28 @@
-/**
- * Create a new `Ti.UI.TabGroup`.
- */
-var tabGroup = Ti.UI.createTabGroup();
+// Intent object to launch the application
+var intent = Ti.Android.createIntent({
+    action: Ti.Android.ACTION_MAIN,
+    // Substitute the correct class name for your application
+    className: 'com.titanium.appcelarator.SampleTitaniumProject',
+    // Substitue the correct package name for your application
+    packageName: 'com.titanium.appcelarator'
+});
+intent.flags |= Ti.Android.FLAG_ACTIVITY_NEW_TASK;
+intent.addCategory(Ti.Android.CATEGORY_LAUNCHER);
 
-/**
- * Add the two created tabs to the tabGroup object.
- */
-tabGroup.addTab(createTab("Tab 1", "I am Window 1", "assets/images/tab1.png"));
-tabGroup.addTab(createTab("Tab 2", "I am Window 2", "assets/images/tab2.png"));
+// Create a PendingIntent to tie together the Activity and Intent
+var pending = Titanium.Android.createPendingIntent({
+    intent: intent,
+    flags: Titanium.Android.FLAG_UPDATE_CURRENT
+});
 
-/**
- * Open the tabGroup
- */
-tabGroup.open();
+// Create the notification
+var notification = Titanium.Android.createNotification({
+    // icon is passed as an Android resource ID -- see Ti.App.Android.R.
+    icon: Ti.App.Android.R.drawable.my_icon,
+    contentTitle: 'Something Happened',
+    contentText: 'Click to return to the application.',
+    contentIntent: pending
+});
 
-/**
- * Creates a new Tab and configures it.
- *
- * @param  {String} title The title used in the `Ti.UI.Tab` and it's included `Ti.UI.Window`
- * @param  {String} message The title displayed in the `Ti.UI.Label`
- * @return {String} icon The icon used in the `Ti.UI.Tab`
- */
-function createTab(title, message, icon) {
-    var win = Ti.UI.createWindow({
-        title: title,
-        backgroundColor: '#fff'
-    });
-
-    var label = Ti.UI.createLabel({
-        text: message,
-        color: "#333",
-        font: {
-            fontSize: 20
-        }
-    });
-
-    win.add(label);
-
-    var tab = Ti.UI.createTab({
-        title: title,
-        icon: icon,
-        window: win
-    });
-
-    return tab;
-}
+// Send the notification.
+Titanium.Android.NotificationManager.notify(1, notification);
