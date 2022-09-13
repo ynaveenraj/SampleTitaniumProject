@@ -36,7 +36,8 @@ win.addEventListener('click', function (e) {
     var dialog = Ti.UI.createAlertDialog({
         ok: 'Okay',
         title: 'Enter Barcode',
-        androidView: view
+        // androidView: view,
+        androidView: textField
     });
     dialog.show();
 });
