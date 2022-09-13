@@ -1,47 +1,43 @@
-/**
- * Create a new `Ti.UI.TabGroup`.
- */
-var tabGroup = Ti.UI.createTabGroup();
+var win = Ti.UI.createWindow({
+    title: 'Click window to test',
+    backgroundColor: 'white'
+});
 
-/**
- * Add the two created tabs to the tabGroup object.
- */
-tabGroup.addTab(createTab("Tab 1", "I am Window 1", "assets/images/tab1.png"));
-tabGroup.addTab(createTab("Tab 2", "I am Window 2", "assets/images/tab2.png"));
-
-/**
- * Open the tabGroup
- */
-tabGroup.open();
-
-/**
- * Creates a new Tab and configures it.
- *
- * @param  {String} title The title used in the `Ti.UI.Tab` and it's included `Ti.UI.Window`
- * @param  {String} message The title displayed in the `Ti.UI.Label`
- * @return {String} icon The icon used in the `Ti.UI.Tab`
- */
-function createTab(title, message, icon) {
-    var win = Ti.UI.createWindow({
-        title: title,
-        backgroundColor: '#fff'
+win.addEventListener('click', function (e) {
+    var view = Titanium.UI.createView({
+        backgroundColor: 'red',
+        width: 250,
+        height: 100
+        // ,
+        // bottom: 30
     });
-
-    var label = Ti.UI.createLabel({
-        text: message,
-        color: "#333",
-        font: {
-            fontSize: 20
-        }
+    var label1 = Ti.UI.createLabel({
+        color: '#900',
+        font: { fontSize: 60 },
+        // shadowColor: '#aaa',
+        // shadowOffset: { x: 5, y: 5 },
+        // shadowRadius: 3,
+        // text: 'A simple label',
+        // textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+        top: 30,
+        width: 250, height: 100
     });
-
-    win.add(label);
-
-    var tab = Ti.UI.createTab({
-        title: title,
-        icon: icon,
-        window: win
+    var textField = Titanium.UI.createTextField({
+        backgroundColor: 'red',
+        color: 'white',
+        font: { fontSize: 30 },
+        width: 250,
+        // height: 100,
+        verticalAlign: Titanium.UI.TEXT_VERTICAL_ALIGNMENT_BOTTOM,
+        alignment: Titanium.UI.TEXT_ALIGNMENT_LEFT
     });
-
-    return tab;
-}
+    // view.add(label1);
+    view.add(textField);
+    var dialog = Ti.UI.createAlertDialog({
+        ok: 'Okay',
+        title: 'Enter Barcode',
+        androidView: view
+    });
+    dialog.show();
+});
+win.open();
